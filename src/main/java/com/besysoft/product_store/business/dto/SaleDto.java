@@ -1,42 +1,33 @@
-package com.besysoft.product_store.domain;
+package com.besysoft.product_store.business.dto;
 
-import javax.persistence.*;
+import com.besysoft.product_store.domain.Product;
+import com.besysoft.product_store.domain.Seller;
+
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Entity
-@Table(name = "sales")
-public class Sale {
+public class SaleDto implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
     private Product product;
 
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    @JoinColumn(name = "seller_id")
     private Seller seller;
 
-    @Column(nullable = false)
-    @NotNull
+    @NotNull(message = "Este campo no puede estar vacío")
     private Integer quantity;
 
-    @Column(precision = 10, scale = 2)
-    @NotNull
     private BigDecimal commission;
 
-    @Column(name = "create_at")
     private LocalDateTime createAt;
 
-    public Sale() {
+    public SaleDto() {
     }
 
-    public Sale(Long id, Product product, Seller seller, Integer quantity, BigDecimal commission, LocalDateTime createAt) {
+    public SaleDto(Long id, Product product, Seller seller, Integer quantity, BigDecimal commission, LocalDateTime createAt) {
         this.id = id;
         this.product = product;
         this.seller = seller;
@@ -97,13 +88,8 @@ public class Sale {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Sale sale = (Sale) o;
-        return Objects.equals(id, sale.id)
-                && Objects.equals(product, sale.product)
-                && Objects.equals(seller, sale.seller)
-                && Objects.equals(quantity, sale.quantity)
-                && Objects.equals(commission, sale.commission)
-                && Objects.equals(createAt, sale.createAt);
+        SaleDto saleDto = (SaleDto) o;
+        return Objects.equals(id, saleDto.id) && Objects.equals(product, saleDto.product) && Objects.equals(seller, saleDto.seller) && Objects.equals(quantity, saleDto.quantity) && Objects.equals(commission, saleDto.commission) && Objects.equals(createAt, saleDto.createAt);
     }
 
     @Override
