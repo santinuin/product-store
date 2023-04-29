@@ -1,4 +1,4 @@
-package com.besysoft.productstore;
+package com.besysoft.product_store;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package com.besysoft.productstore;
+package com.besysoft.product_store;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
