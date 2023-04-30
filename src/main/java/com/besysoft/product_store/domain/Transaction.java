@@ -1,5 +1,7 @@
 package com.besysoft.product_store.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;

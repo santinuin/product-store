@@ -2,6 +2,7 @@ package com.besysoft.product_store.business.dto;
 
 import com.besysoft.product_store.domain.Seller;
 import com.besysoft.product_store.domain.TransactionDetail;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -16,6 +17,7 @@ public class TransactionDto implements Serializable {
     @NotNull(message = "Este campo no puede estar vacío")
     private List<TransactionDetail> transactionsDetail;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Seller seller;
 
     private LocalDateTime createAt;
