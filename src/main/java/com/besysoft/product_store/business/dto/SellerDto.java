@@ -15,7 +15,6 @@ public class SellerDto implements Serializable {
     @NotBlank(message = "Este campo no puede estar vacío")
     private String name;
 
-    @Pattern(regexp = "^[0-9]*$", message = "Este campo solo puede contener dígitos")
     private BigDecimal salary;
 
     private BigDecimal commission;

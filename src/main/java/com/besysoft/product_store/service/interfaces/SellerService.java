@@ -10,6 +10,8 @@ public interface SellerService {
 
     List<Seller> findAll();
 
+    Seller findById(Long id);
+
     Seller findByName(String name);
 
     Seller create(Seller seller) throws NameAlreadyExistsException;

@@ -28,6 +28,11 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
+    public Seller findById(Long id) {
+        return this.repository.findById(id).orElseThrow();
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Seller findByName(String name) {
         return this.repository.findByNameContainingIgnoreCase(name).orElseThrow();
