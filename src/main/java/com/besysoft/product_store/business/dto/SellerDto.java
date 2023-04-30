@@ -1,7 +1,6 @@
 package com.besysoft.product_store.business.dto;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
