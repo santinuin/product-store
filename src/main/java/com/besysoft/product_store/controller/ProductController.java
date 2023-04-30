@@ -7,6 +7,8 @@ import com.besysoft.product_store.domain.Product;
 import com.besysoft.product_store.exception.IdNotFoundException;
 import com.besysoft.product_store.exception.NameAlreadyExistsException;
 import com.besysoft.product_store.service.interfaces.ProductService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/productos")
+@Api(value = "Product Controller", tags = "Acciones permitidas para productos")
 public class ProductController {
 
     private final ProductService service;
@@ -31,6 +34,8 @@ public class ProductController {
     }
 
     @GetMapping
+    @ApiOperation(value = "Listar",
+            notes = "Lista todos los productos")
     public ResponseEntity<?> list() {
 
         List<ProductDto> productDtoList = this.service.findAll()
@@ -43,6 +48,9 @@ public class ProductController {
     }
 
     @GetMapping("/buscar")
+    @ApiOperation(value = "Buscar productos",
+            notes = "Podemos buscar por ID o por Nombre, siempre que se lo especifiquemos en los parametros," +
+                    "(siempre va a ponderar ID por sobre el nombre si se especifican ambos)")
     public ResponseEntity<?> findByIdOrName(@RequestParam(required = false) Long id,
                                             @RequestParam(required = false) String name) throws IdNotFoundException {
         if (id != null) {
@@ -57,6 +65,7 @@ public class ProductController {
     }
 
     @GetMapping("/{categoria}")
+    @ApiOperation(value = "Buscar por categoria")
     public ResponseEntity<?> findByCategory(@PathVariable CategoryEnum categoria) {
 
         List<ProductDto> productDtoList = this.service.findByCategory(categoria)
@@ -68,6 +77,7 @@ public class ProductController {
     }
 
     @PostMapping("/crear")
+    @ApiOperation(value = "Crear producto nuevo")
     public ResponseEntity<?> create(@Valid @RequestBody ProductDto productDto) throws NameAlreadyExistsException {
 
         Map<String, Object> response = new HashMap<>();
@@ -81,6 +91,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
+    @ApiOperation(value = "Modificar producto")
     public ResponseEntity<?> update(@PathVariable Long id,
                                     @Valid @RequestBody ProductDto productDto) throws IdNotFoundException, NameAlreadyExistsException {
 
@@ -95,6 +106,7 @@ public class ProductController {
     }
 
     @DeleteMapping("eliminar/{id}")
+    @ApiOperation(value = "Eliminar producto")
     public ResponseEntity<?> deleteById(@PathVariable Long id) throws IdNotFoundException {
 
         Map<String, Object> response = new HashMap<>();

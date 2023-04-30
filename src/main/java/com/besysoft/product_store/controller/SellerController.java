@@ -6,6 +6,8 @@ import com.besysoft.product_store.domain.Seller;
 import com.besysoft.product_store.exception.IdNotFoundException;
 import com.besysoft.product_store.exception.NameAlreadyExistsException;
 import com.besysoft.product_store.service.interfaces.SellerService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/vendedores")
+@Api(value = "Seller Controller", tags = "Acciones permitidas para entidad vendedores")
 public class SellerController {
 
     private final SellerService service;
@@ -31,6 +34,8 @@ public class SellerController {
     }
 
     @GetMapping
+    @ApiOperation(value = "Listar",
+            notes = "Lista todos los vendedores")
     public ResponseEntity<?> list() {
 
         List<SellerDto> sellerDtoList = this.service.findAll()
@@ -43,6 +48,9 @@ public class SellerController {
     }
 
     @GetMapping("/buscar")
+    @ApiOperation(value = "Buscar vendedores",
+            notes = "Podemos buscar por ID o por Nombre, siempre que se lo especifiquemos en los parametros," +
+                    "(siempre va a ponderar ID por sobre el nombre si se especifican ambos)")
     public ResponseEntity<?> findByIdOrName(@RequestParam(required = false) Long id,
                                             @RequestParam(required = false) String name) throws IdNotFoundException {
         if (id != null) {
@@ -57,6 +65,8 @@ public class SellerController {
     }
 
     @PostMapping("/alta")
+    @ApiOperation(value = "Alta",
+            notes = "Dar de alta a un vendedor")
     public ResponseEntity<?> create(@Valid @RequestBody SellerDto sellerDto) throws NameAlreadyExistsException {
 
         Map<String, Object> response = new HashMap<>();
@@ -70,6 +80,7 @@ public class SellerController {
     }
 
     @PutMapping("/{id}")
+    @ApiOperation(value = "Modificar vendedor")
     public ResponseEntity<?> update(@PathVariable Long id,
                                     @Valid @RequestBody SellerDto sellerDto) throws IdNotFoundException, NameAlreadyExistsException {
 
@@ -84,6 +95,7 @@ public class SellerController {
     }
 
     @DeleteMapping("eliminar/{id}")
+    @ApiOperation(value = "Eliminar producto")
     public ResponseEntity<?> deleteById(@PathVariable Long id) throws IdNotFoundException {
 
         Map<String, Object> response = new HashMap<>();
