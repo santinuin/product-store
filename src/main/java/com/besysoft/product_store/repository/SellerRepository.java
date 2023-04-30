@@ -7,5 +7,7 @@ import java.util.Optional;
 
 public interface SellerRepository extends JpaRepository<Seller, Long> {
 
+    Optional<Seller> findByNameIgnoreCase(String name);
+
     Optional<Seller> findByNameContainingIgnoreCase(String name);
 }
