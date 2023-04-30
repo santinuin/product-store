@@ -2,6 +2,7 @@ package com.besysoft.product_store.service.implementations;
 
 import com.besysoft.product_store.domain.Transaction;
 import com.besysoft.product_store.exception.IdNotFoundException;
+import com.besysoft.product_store.repository.ProductRepository;
 import com.besysoft.product_store.repository.TransactionRepository;
 import com.besysoft.product_store.service.interfaces.TransactionService;
 import org.springframework.stereotype.Service;
@@ -16,8 +17,11 @@ public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository repository;
 
-    public TransactionServiceImpl(TransactionRepository repository) {
+    private final ProductRepository productRepository;
+
+    public TransactionServiceImpl(TransactionRepository repository, ProductRepository productRepository) {
         this.repository = repository;
+        this.productRepository = productRepository;
     }
 
     @Override
@@ -35,6 +39,12 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     @Transactional
     public Transaction create(Transaction transaction) {
+
+        transaction.getTransactionsDetail()
+                        .forEach(x -> {
+                            x.setProduct(productRepository.findById(x.getProduct().getId()).orElseThrow());
+                            x.generateSubTotal();
+                        });
 
         transaction.setCreateAt(LocalDateTime.now());
 
