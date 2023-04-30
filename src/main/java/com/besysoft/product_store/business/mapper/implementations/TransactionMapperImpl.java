@@ -18,6 +18,8 @@ public class TransactionMapperImpl implements TransactionMapper {
         transaction.setId(transactionDto.getId());
         transaction.setTransactionsDetail(transactionDto.getTransactionsDetail());
         transaction.setSeller(transactionDto.getSeller());
+        transaction.setSellCommission(transactionDto.getSellCommission());
+        transaction.setTotal(transactionDto.getTotal());
 
         return transaction;
     }
@@ -34,6 +36,8 @@ public class TransactionMapperImpl implements TransactionMapper {
         transactionDto.setTransactionsDetail(transaction.getTransactionsDetail());
         transactionDto.setSeller(transaction.getSeller());
         transactionDto.setCreateAt(transaction.getCreateAt());
+        transactionDto.setSellCommission(transaction.getSellCommission());
+        transactionDto.setTotal(transaction.getTotal());
 
         return transactionDto;
     }
@@ -50,6 +54,13 @@ public class TransactionMapperImpl implements TransactionMapper {
         if (transactionDto.getSeller() != null) {
             transaction.setSeller(transactionDto.getSeller());
         }
+        if (transactionDto.getSellCommission() != null) {
+            transaction.setSellCommission(transactionDto.getSellCommission());
+        }
+        if (transactionDto.getTotal() != null) {
+            transaction.setTotal(transactionDto.getTotal());
+        }
+
 
         return transaction;
     }

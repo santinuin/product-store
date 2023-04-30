@@ -1,6 +1,7 @@
 package com.besysoft.product_store.service.implementations;
 
 import com.besysoft.product_store.domain.Transaction;
+import com.besysoft.product_store.domain.TransactionDetail;
 import com.besysoft.product_store.exception.IdNotFoundException;
 import com.besysoft.product_store.repository.ProductRepository;
 import com.besysoft.product_store.repository.TransactionRepository;
@@ -8,6 +9,7 @@ import com.besysoft.product_store.service.interfaces.TransactionService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -44,11 +46,33 @@ public class TransactionServiceImpl implements TransactionService {
                         .forEach(x -> {
                             x.setProduct(productRepository.findById(x.getProduct().getId()).orElseThrow());
                             x.generateSubTotal();
+
+                            transaction.setTotal(transaction.getTotal().add(x.getSubTotal()));
                         });
 
         transaction.setCreateAt(LocalDateTime.now());
 
+        transaction.setSellCommission(calculateCommissionSeller(transaction));
+
         return this.repository.save(transaction);
+    }
+
+    private Integer countProduct(List<TransactionDetail> transactionsDetail) {
+
+        return transactionsDetail.stream().map(TransactionDetail::getQuantity)
+                .reduce(Integer::sum)
+                .orElseThrow();
+    }
+
+    private BigDecimal calculateCommissionSeller(Transaction transaction) {
+
+        BigDecimal commission = BigDecimal.valueOf(0.05);
+
+        if( this.countProduct(transaction.getTransactionsDetail()) > 2){
+            commission = BigDecimal.valueOf(0.1);
+        }
+
+        return transaction.getTotal().multiply(commission);
     }
 
     @Override

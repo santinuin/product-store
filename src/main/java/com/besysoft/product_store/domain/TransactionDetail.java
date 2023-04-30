@@ -79,7 +79,10 @@ public class TransactionDetail {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TransactionDetail that = (TransactionDetail) o;
-        return Objects.equals(id, that.id) && Objects.equals(product, that.product) && Objects.equals(quantity, that.quantity) && Objects.equals(subTotal, that.subTotal);
+        return Objects.equals(id, that.id)
+                && Objects.equals(product, that.product)
+                && Objects.equals(quantity, that.quantity)
+                && Objects.equals(subTotal, that.subTotal);
     }
 
     @Override
