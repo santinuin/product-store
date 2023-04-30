@@ -1,5 +1,6 @@
 package com.besysoft.product_store.service.implementations;
 
+import com.besysoft.product_store.domain.CategoryEnum;
 import com.besysoft.product_store.domain.Product;
 import com.besysoft.product_store.exception.IdNotFoundException;
 import com.besysoft.product_store.exception.NameAlreadyExistsException;
@@ -41,7 +42,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional(readOnly = true)
-    public Product findByCategory(String category) {
+    public List<Product> findByCategory(CategoryEnum category) {
         return this.repository.findByCategory(category).orElseThrow();
     }
 
@@ -95,5 +96,7 @@ public class ProductServiceImpl implements ProductService {
             throw new IdNotFoundException("Error: no se pudo eliminar, el producto ID: "
                     .concat(id.toString().concat(" no existe.")));
         }
+
+        this.repository.deleteById(id);
     }
 }

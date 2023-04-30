@@ -1,5 +1,6 @@
 package com.besysoft.product_store.service.interfaces;
 
+import com.besysoft.product_store.domain.CategoryEnum;
 import com.besysoft.product_store.domain.Product;
 import com.besysoft.product_store.exception.IdNotFoundException;
 import com.besysoft.product_store.exception.NameAlreadyExistsException;
@@ -14,7 +15,7 @@ public interface ProductService {
 
     Product findByName(String name);
 
-    Product findByCategory(String category);
+    List<Product> findByCategory(CategoryEnum category);
 
     Product create(Product product) throws NameAlreadyExistsException;
 

@@ -4,7 +4,6 @@ import com.besysoft.product_store.domain.CategoryEnum;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -19,10 +18,8 @@ public class ProductDto implements Serializable {
     private String name;
 
     @NotNull(message = "Este campo no puede estar vacío")
-    @Pattern(regexp = "^[0-9]*$", message = "Este campo solo puede contener dígitos")
     private BigDecimal price;
 
-    @Size(max = 30)
     private CategoryEnum category;
 
     public ProductDto() {

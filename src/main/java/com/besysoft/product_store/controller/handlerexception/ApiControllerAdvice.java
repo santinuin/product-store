@@ -3,6 +3,7 @@ package com.besysoft.product_store.controller.handlerexception;
 import com.besysoft.product_store.business.dto.response.ExceptionDto;
 import com.besysoft.product_store.exception.IdNotFoundException;
 import com.besysoft.product_store.exception.NameAlreadyExistsException;
+import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -38,6 +39,13 @@ public class ApiControllerAdvice {
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionDto nameAlreadyExists(NameAlreadyExistsException ex) {
+        return new ExceptionDto(HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage(),
+                null);
+    }
+
+    @ExceptionHandler(ConversionFailedException.class)
+    public ExceptionDto handleConflict(RuntimeException ex) {
         return new ExceptionDto(HttpStatus.BAD_REQUEST.value(),
                 ex.getMessage(),
                 null);
