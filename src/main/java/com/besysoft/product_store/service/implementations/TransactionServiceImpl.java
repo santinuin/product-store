@@ -1,6 +1,7 @@
 package com.besysoft.product_store.service.implementations;
 
 import com.besysoft.product_store.domain.Transaction;
+import com.besysoft.product_store.domain.TransactionDetail;
 import com.besysoft.product_store.exception.IdNotFoundException;
 import com.besysoft.product_store.repository.TransactionRepository;
 import com.besysoft.product_store.service.interfaces.TransactionService;

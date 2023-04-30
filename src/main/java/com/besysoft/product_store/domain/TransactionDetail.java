@@ -1,5 +1,7 @@
 package com.besysoft.product_store.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -13,15 +15,15 @@ public class TransactionDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Product product;
 
     @Column(nullable = false)
     @NotNull
     private Integer quantity;
 
-    @Column(nullable = false)
     private BigDecimal subTotal;
 
     public TransactionDetail() {
@@ -65,6 +67,14 @@ public class TransactionDetail {
     public void setSubTotal(BigDecimal subTotal) {
         this.subTotal = subTotal;
     }
+
+    public void generateSubTotal(){
+
+        this.subTotal = this.product.getPrice().multiply(BigDecimal.valueOf(this.quantity));
+
+    }
+
+
 
     @Override
     public boolean equals(Object o) {
