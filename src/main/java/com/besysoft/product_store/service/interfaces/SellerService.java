@@ -15,7 +15,7 @@ public interface SellerService {
 
     Seller findByName(String name);
 
-    BigDecimal commissionBySeller(Long sellerId);
+    BigDecimal commissionBySeller(Long sellerId) throws IdNotFoundException;
 
     Seller create(Seller seller) throws NameAlreadyExistsException;
 

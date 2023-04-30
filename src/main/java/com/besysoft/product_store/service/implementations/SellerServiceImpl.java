@@ -45,7 +45,14 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public BigDecimal commissionBySeller(Long sellerId) {
+    public BigDecimal commissionBySeller(Long sellerId) throws IdNotFoundException {
+
+        Optional<Seller> sellerById = this.repository.findById(sellerId);
+
+        if (sellerById.isEmpty()){
+            throw new IdNotFoundException("Error: no se pudo editar, el vendedor ID: "
+                    .concat(sellerById.toString().concat(" no existe.")));
+        }
 
         List<Transaction> transactionsBySellerId = this.transactionRepository.findBySellerId(sellerId);
 
