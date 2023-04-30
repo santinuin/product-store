@@ -4,6 +4,8 @@ import com.besysoft.product_store.business.dto.TransactionDto;
 import com.besysoft.product_store.business.mapper.interfaces.TransactionMapper;
 import com.besysoft.product_store.domain.Transaction;
 import com.besysoft.product_store.service.interfaces.TransactionService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/ventas")
+@Api(value = "Transaction Controller", tags = "Acciones permitidas para la venta")
 public class TransactionController {
 
     private final TransactionService service;
@@ -29,6 +32,8 @@ public class TransactionController {
     }
 
     @GetMapping
+    @ApiOperation(value = "Listar",
+            notes = "Lista todas las ventas")
     public ResponseEntity<?> list() {
 
         List<TransactionDto> transactionDtos = this.service.findAll()
@@ -40,6 +45,7 @@ public class TransactionController {
 
     }
     @PostMapping("/crear")
+    @ApiOperation(value = "Generar Venta")
     public ResponseEntity<?> create(@Valid @RequestBody TransactionDto transactionDto) {
 
         Map<String, Object> response = new HashMap<>();
