@@ -4,6 +4,7 @@ import com.besysoft.product_store.domain.Seller;
 import com.besysoft.product_store.exception.IdNotFoundException;
 import com.besysoft.product_store.exception.NameAlreadyExistsException;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface SellerService {
@@ -13,6 +14,8 @@ public interface SellerService {
     Seller findById(Long id);
 
     Seller findByName(String name);
+
+    BigDecimal commissionBySeller(Long sellerId);
 
     Seller create(Seller seller) throws NameAlreadyExistsException;
 

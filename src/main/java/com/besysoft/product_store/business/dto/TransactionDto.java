@@ -25,7 +25,7 @@ public class TransactionDto implements Serializable {
 
     private BigDecimal sellCommission;
 
-    private BigDecimal total;
+    private BigDecimal total = new BigDecimal(0);
 
     public TransactionDto() {
     }

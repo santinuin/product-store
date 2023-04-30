@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,6 +61,22 @@ public class SellerController {
         }
 
         SellerDto sellerDto = this.mapper.toDto(this.service.findByName(name));
+
+        return new ResponseEntity<>(sellerDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/comision")
+    @ApiOperation(value = "Busca vendedor con comision acumulada",
+            notes = "Busca vendedor por id con la comision acumulada hasta el momento")
+    public ResponseEntity<?> findSellerWithCommission(@PathVariable Long id) throws  IdNotFoundException{
+
+        Map<String, Object> response = new HashMap<>();
+
+        SellerDto sellerDto = this.mapper.toDto(this.service.findById(id));
+
+        BigDecimal commission = this.service.commissionBySeller(id);
+
+        sellerDto.setCommission(commission);
 
         return new ResponseEntity<>(sellerDto, HttpStatus.OK);
     }

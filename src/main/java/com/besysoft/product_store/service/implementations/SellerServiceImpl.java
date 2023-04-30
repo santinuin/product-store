@@ -1,13 +1,16 @@
 package com.besysoft.product_store.service.implementations;
 
 import com.besysoft.product_store.domain.Seller;
+import com.besysoft.product_store.domain.Transaction;
 import com.besysoft.product_store.exception.IdNotFoundException;
 import com.besysoft.product_store.exception.NameAlreadyExistsException;
 import com.besysoft.product_store.repository.SellerRepository;
+import com.besysoft.product_store.repository.TransactionRepository;
 import com.besysoft.product_store.service.interfaces.SellerService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -17,8 +20,11 @@ public class SellerServiceImpl implements SellerService {
 
     private final SellerRepository repository;
 
-    public SellerServiceImpl(SellerRepository repository) {
+    private final TransactionRepository transactionRepository;
+
+    public SellerServiceImpl(SellerRepository repository, TransactionRepository transactionRepository) {
         this.repository = repository;
+        this.transactionRepository = transactionRepository;
     }
 
     @Override
@@ -36,6 +42,16 @@ public class SellerServiceImpl implements SellerService {
     @Transactional(readOnly = true)
     public Seller findByName(String name) {
         return this.repository.findByNameContainingIgnoreCase(name).orElseThrow();
+    }
+
+    @Override
+    public BigDecimal commissionBySeller(Long sellerId) {
+
+        List<Transaction> transactionsBySellerId = this.transactionRepository.findBySellerId(sellerId);
+
+        return transactionsBySellerId.stream().map(Transaction::getSellCommission)
+                .reduce(BigDecimal::add)
+                .orElseThrow();
     }
 
     @Override

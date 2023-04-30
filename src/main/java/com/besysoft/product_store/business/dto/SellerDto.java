@@ -65,7 +65,9 @@ public class SellerDto implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SellerDto sellerDto = (SellerDto) o;
-        return Objects.equals(id, sellerDto.id) && Objects.equals(name, sellerDto.name) && Objects.equals(salary, sellerDto.salary) && Objects.equals(commission, sellerDto.commission);
+        return Objects.equals(id, sellerDto.id) && Objects.equals(name, sellerDto.name)
+                && Objects.equals(salary, sellerDto.salary)
+                && Objects.equals(commission, sellerDto.commission);
     }
 
     @Override
