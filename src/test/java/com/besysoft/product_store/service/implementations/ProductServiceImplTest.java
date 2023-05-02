@@ -1,6 +1,5 @@
 package com.besysoft.product_store.service.implementations;
 
-import com.besysoft.product_store.data.LoadData;
 import com.besysoft.product_store.domain.CategoryEnum;
 import com.besysoft.product_store.domain.Product;
 import com.besysoft.product_store.exception.IdNotFoundException;
@@ -99,7 +98,7 @@ class ProductServiceImplTest {
     void update() throws NameAlreadyExistsException, IdNotFoundException {
         Product updatedProduct = new Product(2L, "Monitor 24", new BigDecimal("95000.00"), CategoryEnum.COMPUTACION);
         when(repository.findById(2L)).thenReturn(Optional.ofNullable(products.get(1)));
-        when(repository.save(products.get(1))).thenReturn(updatedProduct);
+        when(repository.save(any())).thenReturn(updatedProduct);
 
         Product update = service.update(2L, updatedProduct);
 
