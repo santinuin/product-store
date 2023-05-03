@@ -91,7 +91,7 @@ public class SellerController {
         Seller newSeller = this.service.create(this.mapper.toEntity(sellerDto));
 
         response.put("message", "El vendedor ha sido dado de alta");
-        response.put("product", newSeller);
+        response.put("seller", newSeller);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -106,7 +106,7 @@ public class SellerController {
         Seller updatedSeller = this.service.update(id, this.mapper.toEntity(sellerDto));
 
         response.put("message", "El vendedor ID: " + updatedSeller.getId() + " ha sido modificado con éxito");
-        response.put("product", updatedSeller);
+        response.put("seller", updatedSeller);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
