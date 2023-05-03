@@ -2,6 +2,7 @@ package com.besysoft.product_store.service.implementations;
 
 import com.besysoft.product_store.domain.CategoryEnum;
 import com.besysoft.product_store.domain.Product;
+import com.besysoft.product_store.domain.Seller;
 import com.besysoft.product_store.exception.IdNotFoundException;
 import com.besysoft.product_store.exception.NameAlreadyExistsException;
 import com.besysoft.product_store.repository.ProductRepository;
@@ -83,15 +84,21 @@ class ProductServiceImplTest {
 
     @Test
     void create() throws NameAlreadyExistsException {
-        Product newProduct = new Product(3L, "El señor de los anillos", new BigDecimal("8000.00"),
+        Product newProduct = new Product(null, "El señor de los anillos", new BigDecimal("8000.00"),
                 CategoryEnum.LIBROS);
-        when(repository.save(newProduct))
-                .thenReturn(newProduct);
+        when(repository.findByNameIgnoreCase(anyString())).thenReturn(Optional.empty());
+        when(repository.save(any())).then(invocation -> {
+            Product p = invocation.getArgument(0);
+            p.setId(1L);
+            return p;
+        });
 
         Product product = service.create(newProduct);
 
         verify(repository, times(1)).save(any(Product.class));
-        assertEquals(product, newProduct);
+        verify(repository,times(1)).findByNameIgnoreCase(anyString());
+        assertEquals(1L, product.getId());
+        assertEquals("El señor de los anillos", product.getName());
     }
 
     @Test
